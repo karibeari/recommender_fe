@@ -8,6 +8,7 @@ let locations = []
 let categories = []
 
 renderRecommendations()
+renderLocationTabs()
 
 const recForm = document.querySelector('#rec-form')
 recForm.addEventListener('submit', function(event) {
@@ -94,7 +95,6 @@ recContainer.addEventListener('click', function(event) {
 document.querySelector('.delete').addEventListener('click', toggleModalOff)
 
 
-
 function getUserData() {
   clearRecommendations()
   return fetch(userUrl)
@@ -127,20 +127,6 @@ async function renderRecommendations() {
   user.recommendations.forEach(renderRecommendation)
 }
 
-function renderEditRecommendation(rec) {
-  editTitle = document.querySelector(".modal-card-title")
-  editTitle.innerHTML = rec.name
-  editForm = document.querySelector('#rec-edit-form')
-  editForm.innerHTML =`<input type="text" name="location" id="location" value="${rec.location}"> <br>
-    <input type="hidden" name="id" id="id" value=${rec.id}>
-    <input type="text" name="category" id="category" value="${rec.category}"> <br>
-    <input type="text" name="name" id="name" value="${rec.name}"> <br>
-    <input type="text" name="recommended_by" id="recommended_by" value="${rec.recommended_by}"> <br>
-    <input type="text" name="url" id="website" value="${rec.url}"> <br>
-    <input type="text" name="image" id="image" value="${rec.image}"> <br>
-    <textarea name="notes" id="notes" cols="30" rows="10" >${rec.notes}</textarea> <br>`
-}
-
 function renderRecommendation(recommendation) {
   recContainer.innerHTML += `
     <div class="column is-one-quarter">
@@ -160,6 +146,36 @@ function renderRecommendation(recommendation) {
         <button class="button delete-rec" id="${recommendation.id}">Delete</button>
       </article>
     </div>`
+}
+
+async function renderLocationTabs(){
+  const user = await getUserData()
+  locations.forEach(renderLocationTab)
+}
+
+function renderLocationTab(location) {
+  let ul = document.querySelector('#location-tabs')
+  ul.innerHTML +=
+  `<li class="is-active">
+    <a id=${location}>
+      <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+      <span>${location}</span>
+    </a>
+  </li>`
+}
+
+function renderEditRecommendation(rec) {
+  editTitle = document.querySelector(".modal-card-title")
+  editTitle.innerHTML = rec.name
+  editForm = document.querySelector('#rec-edit-form')
+  editForm.innerHTML =`<input type="text" name="location" id="location" value="${rec.location}"> <br>
+    <input type="hidden" name="id" id="id" value=${rec.id}>
+    <input type="text" name="category" id="category" value="${rec.category}"> <br>
+    <input type="text" name="name" id="name" value="${rec.name}"> <br>
+    <input type="text" name="recommended_by" id="recommended_by" value="${rec.recommended_by}"> <br>
+    <input type="text" name="url" id="website" value="${rec.url}"> <br>
+    <input type="text" name="image" id="image" value="${rec.image}"> <br>
+    <textarea name="notes" id="notes" cols="30" rows="10" >${rec.notes}</textarea> <br>`
 }
 
 function toggleModalOff () {
