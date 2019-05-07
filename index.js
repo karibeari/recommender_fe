@@ -7,8 +7,10 @@ let links = document.getElementsByTagName("a")
 let locations = []
 let categories = []
 
-renderRecommendations()
-renderLocationTabs()
+getUserData().then(() => {
+  renderRecommendations(store.recommendations)
+  renderLocationTabs(locations)
+})
 
 const recForm = document.querySelector('#rec-form')
 recForm.addEventListener('submit', function(event) {
@@ -94,6 +96,12 @@ recContainer.addEventListener('click', function(event) {
 
 document.querySelector('.delete').addEventListener('click', toggleModalOff)
 
+let tabs = document.querySelector('#location-tabs').addEventListener('click', () => {
+
+  let filteredResults = store.recommendations.filter((rec) => { return rec.location === event.target.innerText })
+  clearRecommendations()
+  renderRecommendations(filteredResults)
+})
 
 function getUserData() {
   clearRecommendations()
@@ -122,9 +130,8 @@ function clearRecommendations() {
   }
 }
 
-async function renderRecommendations() {
-  const user = await getUserData()
-  user.recommendations.forEach(renderRecommendation)
+function renderRecommendations(recommendations) {
+  recommendations.forEach(renderRecommendation)
 }
 
 function renderRecommendation(recommendation) {
@@ -148,8 +155,7 @@ function renderRecommendation(recommendation) {
     </div>`
 }
 
-async function renderLocationTabs(){
-  const user = await getUserData()
+function renderLocationTabs(locations) {
   locations.forEach(renderLocationTab)
 }
 
@@ -157,7 +163,7 @@ function renderLocationTab(location) {
   let ul = document.querySelector('#location-tabs')
   ul.innerHTML +=
   `<li class="is-active">
-    <a id=${location}>
+    <a>
       <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
       <span>${location}</span>
     </a>
