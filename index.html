@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
+
+  </head>
+
+  <body>
+
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+
+          </h1>
+        </div>
+      </div>
+    </section>
+
+  <div class=" column columns">
+    <nav class="panel column is-one-quarter">
+      <div class="panel-block">
+        <form id="rec-form">
+          <input type="text" name="location" id="location" placeholder="location"> <br>
+          <input type="text" name="category" id="category" placeholder="category"> <br>
+          <input type="text" name="name" id="name" placeholder="name of recommendation"> <br>
+          <input type="text" name="recommended_by" id="recommended_by" placeholder="recommended by"> <br>
+          <input type="text" name="url" id="website" placeholder="website address"> <br>
+          <input type="text" name="image" id="image" placeholder="image url"> <br>
+          <textarea name="notes" id="notes" cols="30" rows="10" placeholder="notes"></textarea> <br>
+          <input type="submit" value="Add New Recommendation">
+        </form>
+      </div>
+    </nav>
+
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="rec-edit-form">
+
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" type="submit">Save changes</button>
+        </footer>
+
+      </div>
+    </div>
+
+    <div class="columns is-multiline" id="recommendations"></div>
+
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="index.js"></script>
+  </body>
+</html>
