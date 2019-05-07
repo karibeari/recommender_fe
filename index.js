@@ -4,6 +4,8 @@ let recommendationsUrl = 'http://localhost:3000/api/v1/recommendations'
 let store = {}
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
+let locations = []
+let categories = []
 
 renderRecommendations()
 
@@ -91,12 +93,24 @@ recContainer.addEventListener('click', function(event) {
 
 document.querySelector('.delete').addEventListener('click', toggleModalOff)
 
+
+
 function getUserData() {
   clearRecommendations()
   return fetch(userUrl)
   .then(resp => resp.json())
   .then(user => {
     store = user
+    store.recommendations.forEach(rec => {
+      if (!locations.includes(rec.location)) {
+        locations.push(rec.location)
+      }
+    })
+    store.recommendations.forEach(rec => {
+      if (!categories.includes(rec.category)) {
+        categories.push(rec.category)
+      }
+    })
     return user
   })
   .catch(error => console.error(error.message))
