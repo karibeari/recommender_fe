@@ -1,17 +1,17 @@
+
 let userId = 1
 let userUrl = `http://localhost:3000/api/v1/users/${userId}`
 let recommendationsUrl = 'http://localhost:3000/api/v1/recommendations'
 let store = {}
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
+let locationTabs = document.querySelector('#location-tabs')
 let locations = []
 let categories = []
 
-getUserData().then(() => {
-  renderRecommendations(store.recommendations)
-  renderLocationTabs(locations)
-})
+refreshData()
 
+//CREATE
 const recForm = document.querySelector('#rec-form')
 recForm.addEventListener('submit', function(event) {
   event.preventDefault()
@@ -35,10 +35,11 @@ recForm.addEventListener('submit', function(event) {
     body: JSON.stringify(body)
   })
   .then(resp => resp.json())
-  .then(renderRecommendations)
+  .then(refreshData)
   .catch(error => console.error(error.message))
 })
 
+//UPDATE
 const saveEditBtn = document.querySelector('.is-success')
 saveEditBtn.addEventListener('click', function(event) {
   event.preventDefault()
@@ -67,10 +68,22 @@ saveEditBtn.addEventListener('click', function(event) {
     body: JSON.stringify(body)
   })
   .then(resp => resp.json())
-  .then(renderRecommendations)
+  .then(refreshData)
   .catch(error => console.error(error.message))
 })
 
+//SEARCH BY NAME
+document.querySelector('#search-by-name').addEventListener('input', event => {
+    filterTerm = event.target.value
+    let filteredResults = store.recommendations.filter( recommendation =>  {
+      return recommendation.name.toLowerCase().includes(filterTerm.toLowerCase())
+    })
+    console.log(filteredResults);
+    clearRecommendations()
+    renderRecommendations(filteredResults)
+})
+
+//DELETE
 recContainer.addEventListener('click', function(event) {
   let id = event.target.id
 
@@ -83,7 +96,7 @@ recContainer.addEventListener('click', function(event) {
       body: JSON.stringify({id: id})
     })
       .then(resp => resp.json())
-      .then(renderRecommendations)
+      .then(refreshData)
       .catch(error => console.error(error.message))
   } else if (event.target.matches('.edit-rec')) {
       toggleModalOn()
@@ -94,10 +107,11 @@ recContainer.addEventListener('click', function(event) {
   }
 })
 
+//CLOSE MODALS
 document.querySelector('.delete').addEventListener('click', toggleModalOff)
 
-let tabs = document.querySelector('#location-tabs').addEventListener('click', () => {
-
+//FILTER BY LOCATION
+const tabs = document.querySelector('#location-tabs').addEventListener('click', () => {
   let filteredResults = store.recommendations.filter((rec) => { return rec.location === event.target.innerText })
   clearRecommendations()
   renderRecommendations(filteredResults)
@@ -105,6 +119,7 @@ let tabs = document.querySelector('#location-tabs').addEventListener('click', ()
 
 function getUserData() {
   clearRecommendations()
+  clearLocationTabs()
   return fetch(userUrl)
   .then(resp => resp.json())
   .then(user => {
@@ -124,9 +139,22 @@ function getUserData() {
   .catch(error => console.error(error.message))
 }
 
+function refreshData() {
+  getUserData().then(() => {
+    renderRecommendations(store.recommendations)
+    renderLocationTabs(locations)
+  })
+}
+
 function clearRecommendations() {
   while (recContainer.firstChild) {
     recContainer.removeChild(recContainer.firstChild)
+  }
+}
+
+function clearLocationTabs() {
+  while (locationTabs.firstChild) {
+    locationTabs.removeChild(locationTabs.firstChild)
   }
 }
 
@@ -136,7 +164,7 @@ function renderRecommendations(recommendations) {
 
 function renderRecommendation(recommendation) {
   recContainer.innerHTML += `
-    <div class="column is-one-quarter">
+    <div class="column is-3">
       <article class="tile is-child box has-background-primary">
         <p class="subtitle is-8 ">${recommendation.location}</p>
         <div class="card-image">
@@ -160,11 +188,10 @@ function renderLocationTabs(locations) {
 }
 
 function renderLocationTab(location) {
-  let ul = document.querySelector('#location-tabs')
-  ul.innerHTML +=
+  locationTabs.innerHTML +=
   `<li class="is-active">
     <a>
-      <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+      <span class="icon is-small"><i class="fas fa-compass" aria-hidden="true"></i></span>
       <span>${location}</span>
     </a>
   </li>`

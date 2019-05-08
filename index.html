@@ -7,6 +7,9 @@
 
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+
 
   </head>
 
@@ -23,18 +26,75 @@
     </div>
   </section>
 
-  <div class=" column columns">
+  <div class="column columns">
     <nav class="panel column is-one-quarter">
+      <label for="search-by-name">Search by Name: </label>
+      <input type="seach" id="search-by-name"> <br> <br>
       <div class="panel-block">
         <form id="rec-form">
-          <input type="text" name="location" id="location" placeholder="location"> <br>
-          <input type="text" name="category" id="category" placeholder="category"> <br>
-          <input type="text" name="name" id="name" placeholder="name of recommendation"> <br>
-          <input type="text" name="recommended_by" id="recommended_by" placeholder="recommended by"> <br>
-          <input type="text" name="url" id="website" placeholder="website address"> <br>
-          <input type="text" name="image" id="image" placeholder="image url"> <br>
-          <textarea name="notes" id="notes" cols="30" rows="10" placeholder="notes"></textarea> <br>
-          <input type="submit" value="Add New Recommendation">
+          <div class="field">
+            <label class="label">Location</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="location" id="location" placeholder="location">
+              <span class="icon is-small is-left">
+                <i class="fas fa-map-marked"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Category</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="category" id="category" placeholder="category">
+              <span class="icon is-small is-left">
+                <i class="fas fa-clipboard"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="name" id="name" placeholder="name">
+              <span class="icon is-small is-left">
+                <i class="fas fa-sticky-note"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Recommended by</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="recommended_by" id="recommended_by" placeholder="recommended by">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user-friends"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Website Address</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="url" id="website" placeholder="website address">
+              <span class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Image Url</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" name="image" id="image" placeholder="image url">
+              <span class="icon is-small is-left">
+                <i class="fas fa-image"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Notes</label>
+            <div class="control">
+              <textarea class="textarea" name="notes" placeholder="Add notes about this recommendation here"></textarea>
+            </div>
+          </div>
+          <div class="control">
+            <input class="button is-primary" type="submit" value="Add New Recommendation">
+          </div>
         </form>
       </div>
     </nav>
@@ -58,7 +118,7 @@
       </div>
     </div>
 
-    <div class="columns is-multiline" id="recommendations"></div>
+    <div class="columns is-multiline" id="recommendations" style="width: 100%"></div>
 
   </div>
 
