@@ -11,6 +11,10 @@
   margin-top: -25px;
 }
 
+.tile {
+  height: 100%;
+}
+
 #recommendations {
   width: 80%;
   right: 0;

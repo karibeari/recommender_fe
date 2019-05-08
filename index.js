@@ -77,9 +77,12 @@ document.querySelector('#rec-form').addEventListener('submit', function(event) {
 document.querySelector('#save-edit').addEventListener('click', function(event) {
   event.preventDefault()
   let editForm = document.querySelector('#rec-edit-form')
+  console.log(editForm)
   const formData = new FormData(editForm)
+  console.log(formData);
   let id = formData.get("id")
   toggleModalOff()
+  // console.log(id);
 
   const body ={
     id: id,
@@ -93,7 +96,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
     user_id: userId
   }
 
-  fetch(`http://localhost:3000/api/v1/recommendations/${id}`, {
+  fetch(`https://glacial-island-58078.herokuapp.com/api/v1/recommendations/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -116,7 +119,7 @@ document.querySelector('#search-by-name').addEventListener('input', event => {
     renderRecommendations(filteredResults)
 })
 
-//DELETE
+//DELETE AND EDIT MODAL
 recContainer.addEventListener('click', function(event) {
   let id = event.target.id
 
@@ -131,12 +134,16 @@ recContainer.addEventListener('click', function(event) {
       .then(resp => resp.json())
       .then(refreshData)
       .catch(error => console.error(error.message))
-  } else if (event.target.matches('.edit-rec')) {
+  }
+  else if (event.target.matches('.edit-rec')) {
       toggleModalOn()
       let recMatch = store.recommendations.find(rec => {
         return rec.id === parseInt(id)
       })
       renderEditRecommendation(recMatch)
+  }
+  else {
+    alert('works')
   }
 })
 
@@ -213,14 +220,16 @@ function renderRecommendation(recommendation) {
         </div>
         <p class="title">${recommendation.name}</p>
         <p class="subtitle">${recommendation.category}</p>
-        <p class="subtitle is-6">${recommendation.notes}</p>
-        <p class="subtitle is-6">Recommended by: ${recommendation.recommended_by}</p>
         <a target="_blank" href="${recommendation.url}">Go!</a>
         <button class="button edit-rec" id="${recommendation.id}">Edit</button>
         <button class="button delete-rec" id="${recommendation.id}">Delete</button>
       </article>
     </div>`
 }
+
+
+// <p class="subtitle is-6">${recommendation.notes}</p>
+// <p class="subtitle is-6">Recommended by: ${recommendation.recommended_by}</p>
 
 function renderLocationTabs(locations) {
   locationTabs.innerHTML +=
@@ -247,14 +256,33 @@ function renderEditRecommendation(rec) {
   editTitle = document.querySelector(".modal-card-title")
   editTitle.innerHTML = rec.name
   editForm = document.querySelector('#rec-edit-form')
-  editForm.innerHTML =`<input type="text" name="location" id="location" value="${rec.location}"> <br>
-    <input type="hidden" name="id" value=${rec.id}>
-    <input class="input is-small" type="text" name="category" value="${rec.category}"> <br>
-    <input class="input is-small" type="text" name="name" value="${rec.name}"> <br>
-    <input class="input is-small" type="text" name="recommended_by" value="${rec.recommended_by}"> <br>
-    <input class="input is-small" type="text" name="url" value="${rec.url}"> <br>
-    <input class="input is-small" type="text" name="image" value="${rec.image}"> <br>
-    <textarea name="notes" cols="30" rows="10" >${rec.notes}</textarea> <br>`
+  editForm.innerHTML =`
+    <form id="rec-edit-form">
+      <input type="hidden" name="id" value=${rec.id}>
+      <div class="field">
+        <input class="input" type="text" name="location" value="${rec.location}" placeholder="location">
+      </div>
+      <div class="field">
+        <input class="input" type="text" name="category" value="${rec.category}" placeholder="category">
+      </div>
+      <div class="field">
+        <input class="input" type="text" name="name" value="${rec.name}" placeholder="name">
+      </div>
+      <div class="field">
+        <input class="input" type="text" name="recommended_by" value="${rec.recommended_by}" placeholder="recommended by">
+      </div>
+      <div class="field">
+        <input class="input" type="text" name="url" value="${rec.url}" placeholder="website address">
+      </div>
+      <div class="field">
+          <input class="input" type="text" name="image" value="${rec.image}" placeholder="image url">
+      </div>
+      <div class="field">
+        <div class="control">
+          <textarea class="textarea" name="notes" placeholder="Add notes about this recommendation">${rec.notes}</textarea>
+        </div>
+      </div>
+    </form>`
 }
 
 function toggleModalOff () {
@@ -269,6 +297,7 @@ function toggleMainPageOn () {
   introPage.classList.add('hide')
   mainPage.classList.remove('hide')
 }
+
 function toggleMainPageOff () {
   introPage.classList.remove('hide')
   mainPage.classList.add('hide')
