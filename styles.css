@@ -1,5 +1,5 @@
 .sidenav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
+  height: auto; /* Full-height: remove this if you want "auto" height */
   width: auto; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
@@ -7,8 +7,8 @@
   left: 0;
   background-color: #fff; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-
+  padding: 10px;
+  margin-top: -25px;
 }
 
 #recommendations {
@@ -19,4 +19,18 @@
 
 .hide {
   display: none;
+}
+
+main {
+  margin-top: 7%;
+}
+
+#loctabs {
+  padding-left: 20%;
+}
+
+#logo {
+  max-height: 80px;
+  max-width: 80px;
+  padding: 10px;
 }

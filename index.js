@@ -1,40 +1,50 @@
 
-let userId
-let userUrl = `http://localhost:3000/api/v1/users/${userId}`
-let recommendationsUrl = 'http://localhost:3000/api/v1/recommendations'
-let usersUrl = 'http://localhost:3000/api/v1/users'
+let userId =1
+
+
+let userUrl = `https://glacial-island-58078.herokuapp.com/api/v1/users/${userId}`
+let recommendationsUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/recommendations'
+let usersUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/users'
 let introPage = document.querySelector('header')
 let mainPage = document.querySelector('main')
-let store = {}
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
 let locationTabs = document.querySelector('#location-tabs')
+let store = {}
 let locations = []
 let categories = []
 
 
-document.querySelector('#signin').addEventListener('click', () => {
-  event.preventDefault()
-  const userName = document.querySelector('#user-name')
-  fetch(usersUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({name: userName.value})
-  })
-  .then(resp => resp.json())
-  .then(user => {
-    userId = user.id
-    userUrl = `http://localhost:3000/api/v1/users/${userId}`
-    toggleMainPageOn()
-    refreshData()
-  })
-  .catch(error => console.error(error.message))
-})
+toggleMainPageOn ()
+refreshData()
 
-// const logo = document.querySelector('#logo')
-// logo.addEventListener
+//SIGN IN
+// document.querySelector('#signin').addEventListener('click', () => {
+//   event.preventDefault()
+//   fetch(usersUrl, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({name: document.querySelector('#user-name').value})
+//   })
+//   .then(resp => resp.json())
+//   .then(user => {
+//     userId = user.id
+//     userUrl = `https://glacial-island-58078.herokuapp.com/api/v1/users/${userId}`
+//     toggleMainPageOn()
+//     refreshData()
+//     document.querySelector('#user-name').value = ''
+//   })
+//   .catch(error => console.error(error.message))
+// })
+
+//BACK TO SIGN IN
+document.querySelector('#logo').addEventListener('click', () => {
+  toggleMainPageOff()
+  clearRecommendations()
+  clearLocationTabs()
+})
 
 //CREATE
 document.querySelector('#rec-form').addEventListener('submit', function(event) {
@@ -111,7 +121,7 @@ recContainer.addEventListener('click', function(event) {
   let id = event.target.id
 
   if (event.target.matches('.delete-rec')) {
-    fetch(`http://localhost:3000/api/v1/recommendations/${id}`, {
+    fetch(`https://glacial-island-58078.herokuapp.com/api/v1/recommendations/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -238,13 +248,13 @@ function renderEditRecommendation(rec) {
   editTitle.innerHTML = rec.name
   editForm = document.querySelector('#rec-edit-form')
   editForm.innerHTML =`<input type="text" name="location" id="location" value="${rec.location}"> <br>
-    <input type="hidden" name="id" id="id" value=${rec.id}>
-    <input type="text" name="category" id="category" value="${rec.category}"> <br>
-    <input type="text" name="name" id="name" value="${rec.name}"> <br>
-    <input type="text" name="recommended_by" id="recommended_by" value="${rec.recommended_by}"> <br>
-    <input type="text" name="url" id="website" value="${rec.url}"> <br>
-    <input type="text" name="image" id="image" value="${rec.image}"> <br>
-    <textarea name="notes" id="notes" cols="30" rows="10" >${rec.notes}</textarea> <br>`
+    <input type="hidden" name="id" value=${rec.id}>
+    <input class="input is-small" type="text" name="category" value="${rec.category}"> <br>
+    <input class="input is-small" type="text" name="name" value="${rec.name}"> <br>
+    <input class="input is-small" type="text" name="recommended_by" value="${rec.recommended_by}"> <br>
+    <input class="input is-small" type="text" name="url" value="${rec.url}"> <br>
+    <input class="input is-small" type="text" name="image" value="${rec.image}"> <br>
+    <textarea name="notes" cols="30" rows="10" >${rec.notes}</textarea> <br>`
 }
 
 function toggleModalOff () {

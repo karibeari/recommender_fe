@@ -14,17 +14,25 @@
 
   </head>
 
-  <body>
+  <body >
 
 <!-- Nav Bar -->
-    <nav class="navbar is-fixed-top has-background-dark has-text-light" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top has-background-dark has-text-light" role="navigation" aria-label="main navigation" id="topnav">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io" id="logo">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a id="logo">
+          <img src="mendo-circle.png" >
         </a>
       </div>
+      <div class="navbar-item">
+        <div class="control has-icons-left">
+          <input class="input" type="seach" id="search-by-name" placeholder="search by name">
+          <span class="icon is-medium is-left">
+            <i class="fas fa-search fa-lg"></i>
+          </span>
+        </div>
+      </div>
 
-      <div class="navbar-item navbar-end tabs is-toggle is-right is-medium">
+      <div class="navbar-item tabs is-toggle is-right is-medium" id="loctabs">
         <ul id="location-tabs" ></ul>
       </div>
     </nav>
@@ -75,15 +83,11 @@
   </div>
 
 <main class="hide">
+
 <!-- Side Panel -->
     <div class="column columns ">
       <nav class="panel column sidenav">
-        <div class="control has-icons-left">
-          <input class="input" type="seach" id="search-by-name" placeholder="search by name">
-          <span class="icon is-medium is-left">
-            <i class="fas fa-search fa-lg"></i>
-          </span>
-        </div>
+
         <div class="panel-block">
           <form id="rec-form">
             <div class="field">
@@ -156,6 +160,7 @@
 <!-- Recommendation Container -->
       <div class="columns is-multiline" id="recommendations" ></div>
     </div>
+
 </main>
 
 
