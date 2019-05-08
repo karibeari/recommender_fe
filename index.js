@@ -1,7 +1,10 @@
 
-let userId = 1
+let userId
 let userUrl = `http://localhost:3000/api/v1/users/${userId}`
 let recommendationsUrl = 'http://localhost:3000/api/v1/recommendations'
+let usersUrl = 'http://localhost:3000/api/v1/users'
+let introPage = document.querySelector('header')
+let mainPage = document.querySelector('main')
 let store = {}
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
@@ -9,11 +12,32 @@ let locationTabs = document.querySelector('#location-tabs')
 let locations = []
 let categories = []
 
-refreshData()
+
+document.querySelector('#signin').addEventListener('click', () => {
+  event.preventDefault()
+  const userName = document.querySelector('#user-name')
+  fetch(usersUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({name: userName.value})
+  })
+  .then(resp => resp.json())
+  .then(user => {
+    userId = user.id
+    userUrl = `http://localhost:3000/api/v1/users/${userId}`
+    toggleMainPageOn()
+    refreshData()
+  })
+  .catch(error => console.error(error.message))
+})
+
+// const logo = document.querySelector('#logo')
+// logo.addEventListener
 
 //CREATE
-const recForm = document.querySelector('#rec-form')
-recForm.addEventListener('submit', function(event) {
+document.querySelector('#rec-form').addEventListener('submit', function(event) {
   event.preventDefault()
   const formData = new FormData(event.target)
   const body ={
@@ -40,8 +64,7 @@ recForm.addEventListener('submit', function(event) {
 })
 
 //UPDATE
-const saveEditBtn = document.querySelector('.is-success')
-saveEditBtn.addEventListener('click', function(event) {
+document.querySelector('#save-edit').addEventListener('click', function(event) {
   event.preventDefault()
   let editForm = document.querySelector('#rec-edit-form')
   const formData = new FormData(editForm)
@@ -111,10 +134,16 @@ recContainer.addEventListener('click', function(event) {
 document.querySelector('.delete').addEventListener('click', toggleModalOff)
 
 //FILTER BY LOCATION
-const tabs = document.querySelector('#location-tabs').addEventListener('click', () => {
-  let filteredResults = store.recommendations.filter((rec) => { return rec.location === event.target.innerText })
-  clearRecommendations()
-  renderRecommendations(filteredResults)
+document.querySelector('#location-tabs').addEventListener('click', () => {
+  const tab = event.target.innerText
+  if (tab === 'All Locations') {
+    clearRecommendations()
+    renderRecommendations(store.recommendations)
+  } else {
+    let filteredResults = store.recommendations.filter((rec) => { return rec.location === event.target.innerText })
+    clearRecommendations()
+    renderRecommendations(filteredResults)
+  }
 })
 
 function getUserData() {
@@ -184,15 +213,22 @@ function renderRecommendation(recommendation) {
 }
 
 function renderLocationTabs(locations) {
+  locationTabs.innerHTML +=
+  `<li class="tab">
+    <a>
+      <span class="icon is-small"><i class="fas fa-compass" aria-hidden="true"></i></span>
+      <span class="has-text-light">All Locations</span>
+    </a>
+  </li>`
   locations.forEach(renderLocationTab)
 }
 
 function renderLocationTab(location) {
   locationTabs.innerHTML +=
-  `<li class="is-active">
+  `<li class="tab">
     <a>
       <span class="icon is-small"><i class="fas fa-compass" aria-hidden="true"></i></span>
-      <span>${location}</span>
+      <span class="has-text-light">${location}</span>
     </a>
   </li>`
 }
@@ -217,4 +253,13 @@ function toggleModalOff () {
 
 function toggleModalOn () {
   document.querySelector('.modal').classList.add("is-active")
+}
+
+function toggleMainPageOn () {
+  introPage.classList.add('hide')
+  mainPage.classList.remove('hide')
+}
+function toggleMainPageOff () {
+  introPage.classList.remove('hide')
+  mainPage.classList.add('hide')
 }
