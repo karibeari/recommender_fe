@@ -14,17 +14,29 @@
   <body >
 
 <!-- Nav Bar -->
-    <nav class="navbar is-fixed-top has-background-dark has-text-light" role="navigation" aria-label="main navigation" id="topnav">
+    <nav class="navbar is-fixed-top has-text-light" role="navigation" aria-label="main navigation" id="topnav">
       <div class="navbar-brand">
         <a class="hvr-grow" id="logo">
           <img src="mendo-logo.png" >
         </a>
       </div>
 
+      <!-- Location Buttons -->
       <div class="navbar-item " id="location">
         <p class="buttons"></p>
       </div>
 
+      <!-- Map Button -->
+      <div class="navbar-item " id="map-btn">
+        <p class="buttons">
+          <a class="button is-warning is-rounded hvr-grow" >
+              <span class="icon is-small"><i class="fas fa-map"></i></span>
+              <span class="has-text-grey-darker">Map</span>
+          </a>
+        </p>
+      </div>
+
+      <!-- Search Bar -->
       <div class="navbar-item navbar-end">
         <div class="control has-icons-left">
           <input class="input " type="search" id="search-by-name" placeholder="search by name">
@@ -38,7 +50,7 @@
 
 
 <!-- Sign On Page -->
-<header>
+    <header>
   <section class="hero is-success is-fullheight" >
     <div class="hero-body">
       <div class="container">
@@ -66,8 +78,8 @@
   </section>
 </header>
 
-<!-- Edit Modal -->
-  <div class="modal" id="editmodal">
+  <!-- Edit Modal -->
+    <div class="modal" id="editmodal">
     <div class="modal-background"></div>
     <div class="modal-card has-background-dark">
       <header class="modal-card-head">
@@ -84,7 +96,7 @@
   </div>
 
   <!-- Rec Modal -->
-  <div class="modal" id="rec-modal">
+    <div class="modal" id="rec-modal">
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
@@ -100,13 +112,22 @@
     </div>
   </div>
 
+  <!-- Map Modal -->
+  <div class="modal" id="map-modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <section class="modal-card-body">
+        <div id="map"></div>
+      </section>
+    </div>
+    <button class="modal-close is-large" aria-label="close" id="map-delete"></button>
+  </div>
 
 
-
-<main class="hide">
+    <main class="hide">
 
 <!-- Side Panel -->
-    <div class="column columns ">
+      <div class="column columns ">
       <nav class="panel column sidenav">
 
         <div class="panel-block">
@@ -179,12 +200,15 @@
       </nav>
 
 <!-- Recommendation Container -->
-      <div class="columns is-multiline" id="recommendations" ></div>
-    </div>
+        <div class="columns is-multiline" id="recommendations" ></div>
 
-</main>
+    </main>
 
 
     <script src="index.js"></script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
+    </script>
   </body>
 </html>

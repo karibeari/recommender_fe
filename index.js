@@ -1,8 +1,8 @@
 
 let userId =1
-let userUrl = `https://glacial-island-58078.herokuapp.com/api/v1/users/${userId}`
-let recommendationsUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/recommendations'
-let usersUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/users'
+let userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
+let recommendationsUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/recommendations'
+let usersUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/users'
 let introPage = document.querySelector('header')
 let mainPage = document.querySelector('main')
 let recContainer = document.querySelector("#recommendations")
@@ -11,6 +11,7 @@ let locationDiv = document.querySelector('#location p')
 let store = {}
 let locations = []
 let categories = []
+let coordinates = []
 
 toggleMainPageOn ()
 refreshData()
@@ -28,7 +29,7 @@ refreshData()
 //   .then(resp => resp.json())
 //   .then(user => {
 //     userId = user.id
-//     userUrl = `https://glacial-island-58078.herokuapp.com/api/v1/users/${userId}`
+//     userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
 //     toggleMainPageOn()
 //     refreshData()
 //     document.querySelector('#user-name').value = ''
@@ -36,12 +37,26 @@ refreshData()
 //   .catch(error => console.error(error.message))
 // })
 
+function initMap() {
+  // The location of Uluru
+  var rec1 = {lat: 39, lng: -105};
+  // {lat: store.recommendations[0].latitude, lng: store.recommendations[0].longitude}
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 10, center: rec1});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: rec1, map: map});
+}
+
 //BACK TO SIGN IN
 document.querySelector('#logo').addEventListener('click', () => {
   toggleMainPageOff()
   clearRecommendations()
   clearLocationDiv()
 })
+
+//OPEN MAP
+document.querySelector('#map-btn .button').addEventListener('click', toggleMapModalOn)
 
 //CREATE
 document.querySelector('#rec-form').addEventListener('submit', function(event) {
@@ -93,7 +108,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
     user_id: userId
   }
 
-  fetch(`https://glacial-island-58078.herokuapp.com/api/v1/recommendations/${id}`, {
+  fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -123,7 +138,7 @@ recContainer.addEventListener('click', function(event) {
     return rec.id === parseInt(id)
   })
   if (event.target.matches('.delete-rec')) {
-    fetch(`https://glacial-island-58078.herokuapp.com/api/v1/recommendations/${id}`, {
+    fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -147,6 +162,7 @@ recContainer.addEventListener('click', function(event) {
 //CLOSE MODALS
 document.querySelector('#edit-delete').addEventListener('click', toggleEditModalOff)
 document.querySelector('#rec-delete').addEventListener('click', toggleRecModalOff)
+document.querySelector('#map-delete').addEventListener('click', toggleMapModalOff)
 
 //FILTER BY LOCATION
 locationDiv.addEventListener('click', () => {
@@ -177,6 +193,15 @@ function getUserData() {
       if (!categories.includes(rec.category)) {
         categories.push(rec.category)
       }
+    })
+    store.recommendations.forEach(rec => {
+      coordinates.push({
+        name: rec.name,
+        latlong: {
+          lat: rec.latitude,
+          lng: rec.longitude
+        }
+      })
     })
     return user
   })
@@ -243,7 +268,7 @@ function renderRecommendationModal(recommendation) {
 
 function renderLocationBtns(locations) {
   locationDiv.innerHTML +=
-  `<a class="button is-primary is-rounded" >
+  `<a class="button is-primary is-rounded hvr-grow" >
       <span class="icon is-small"><i class="fas fa-compass"></i></span>
       <span class="has-text-light">All Locations</span>
   </a>`
@@ -252,7 +277,7 @@ function renderLocationBtns(locations) {
 
 function renderLocationBtn(location) {
   locationDiv.innerHTML +=
-  `<a class="button is-primary is-rounded" >
+  `<a class="button is-primary is-rounded hvr-grow" >
       <span class="icon is-small"><i class="fas fa-compass"></i></span>
       <span class="has-text-light">${location}</span>
   </a>`
@@ -291,8 +316,10 @@ function renderEditRecommendation(rec) {
     </form>`
 }
 
-function toggleEditModalOff () {
-  document.querySelector('#editmodal').classList.remove("is-active")
+
+//****refactor into 1 toggleon and 1 toggleoff
+function toggleRecModalOn () {
+  document.querySelector('#rec-modal').classList.add("is-active")
 }
 
 function toggleRecModalOff () {
@@ -303,8 +330,16 @@ function toggleEditModalOn () {
   document.querySelector('#editmodal').classList.add("is-active")
 }
 
-function toggleRecModalOn () {
-  document.querySelector('#rec-modal').classList.add("is-active")
+function toggleEditModalOff () {
+  document.querySelector('#editmodal').classList.remove("is-active")
+}
+
+function toggleMapModalOn () {
+  document.querySelector('#map-modal').classList.add("is-active")
+}
+
+function toggleMapModalOff () {
+  document.querySelector('#map-modal').classList.remove("is-active")
 }
 
 function toggleMainPageOn () {
@@ -315,4 +350,5 @@ function toggleMainPageOn () {
 function toggleMainPageOff () {
   introPage.classList.remove('hide')
   mainPage.classList.add('hide')
+  // document.querySelector('#search-by-name').classList.add('hide')
 }

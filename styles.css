@@ -1,3 +1,11 @@
+#map {
+        height: 600px;
+        width: auto;
+       }
+
+
+
+
 .sidenav {
   height: auto; /* Full-height: remove this if you want "auto" height */
   width: auto; /* Set the width of the sidebar */
@@ -8,7 +16,7 @@
   background-color: #fff;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding: 10px;
-  margin-top: -25px;
+  margin-top: -20px;
 }
 
 .hvr-grow {
@@ -64,6 +72,7 @@ main {
 
 #topnav {
   height: 80px;
+  background-color: #102C6D;
 }
 
 #logo {
