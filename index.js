@@ -12,8 +12,6 @@ let store = {}
 let locations = []
 let categories = []
 let coordinates = []
-let coordsOnly = []
-
 
 
 toggleMainPageOn ()
@@ -51,13 +49,9 @@ function initMap() {
 function plotMarkers() {
   let map = new google.maps.Map(document.getElementById('map'), {zoom: 10, center: {lat:39.7, lng: -105}});
   coordinates.forEach((coord) => {
-    // var infowindow = new google.maps.InfoWindow({
-    //       content: 'coord'
-    //     });
-     let marker = new google.maps.Marker({position: coord, map: map, animation: google.maps.Animation.DROP,});
-     // marker.addListener('click', function() {
-     //      infowindow.open(map, marker);
-     //    });
+    let infowindow = new google.maps.InfoWindow({content: coord.name});
+    let marker = new google.maps.Marker({position: coord.latlong, map: map, animation: google.maps.Animation.DROP});
+    marker.addListener('click', function() {infowindow.open(map, marker)});
   })
 }
 
@@ -208,10 +202,11 @@ function getUserData() {
     })
     store.recommendations.forEach(rec => {
       coordinates.push({
-
+        name: rec.name,
+        latlong: {
           lat: Number(rec.latitude),
           lng: Number(rec.longitude)
-
+        }
       })
     })
     // plotMarkers()
