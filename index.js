@@ -1,7 +1,5 @@
 
 let userId =1
-
-
 let userUrl = `https://glacial-island-58078.herokuapp.com/api/v1/users/${userId}`
 let recommendationsUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/recommendations'
 let usersUrl = 'https://glacial-island-58078.herokuapp.com/api/v1/users'
@@ -9,11 +7,10 @@ let introPage = document.querySelector('header')
 let mainPage = document.querySelector('main')
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
-let locationTabs = document.querySelector('#location-tabs')
+let locationTabs = document.querySelector('#loctabs ul')
 let store = {}
 let locations = []
 let categories = []
-
 
 toggleMainPageOn ()
 refreshData()
@@ -81,7 +78,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
   const formData = new FormData(editForm)
   console.log(formData);
   let id = formData.get("id")
-  toggleModalOff()
+  toggleEditModalOff()
   // console.log(id);
 
   const body ={
@@ -119,10 +116,12 @@ document.querySelector('#search-by-name').addEventListener('input', event => {
     renderRecommendations(filteredResults)
 })
 
-//DELETE AND EDIT MODAL
+//DELETE REC AND EDIT MODAL
 recContainer.addEventListener('click', function(event) {
   let id = event.target.id
-
+  let recMatch = store.recommendations.find(rec => {
+    return rec.id === parseInt(id)
+  })
   if (event.target.matches('.delete-rec')) {
     fetch(`https://glacial-island-58078.herokuapp.com/api/v1/recommendations/${id}`, {
       method: 'DELETE',
@@ -136,22 +135,21 @@ recContainer.addEventListener('click', function(event) {
       .catch(error => console.error(error.message))
   }
   else if (event.target.matches('.edit-rec')) {
-      toggleModalOn()
-      let recMatch = store.recommendations.find(rec => {
-        return rec.id === parseInt(id)
-      })
+      toggleEditModalOn()
       renderEditRecommendation(recMatch)
   }
-  else {
-    alert('works')
+  else if (event.target.matches('img')){
+    toggleRecModalOn()
+    renderRecommendationModal(recMatch)
   }
 })
 
 //CLOSE MODALS
-document.querySelector('.delete').addEventListener('click', toggleModalOff)
+document.querySelector('#edit-delete').addEventListener('click', toggleEditModalOff)
+document.querySelector('#rec-delete').addEventListener('click', toggleRecModalOff)
 
 //FILTER BY LOCATION
-document.querySelector('#location-tabs').addEventListener('click', () => {
+locationTabs.addEventListener('click', () => {
   const tab = event.target.innerText
   if (tab === 'All Locations') {
     clearRecommendations()
@@ -210,26 +208,38 @@ function renderRecommendations(recommendations) {
 
 function renderRecommendation(recommendation) {
   recContainer.innerHTML += `
-    <div class="column is-3">
-      <article class="tile is-child box has-background-primary">
+    <div class="column is-3 hvr-grow" id="${recommendation.id}">
+      <article class="tile is-child box has-background-primary" >
         <p class="subtitle is-8 ">${recommendation.location}</p>
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="${recommendation.image}" onerror="this.src='https://phadvocates.org/wp-content/themes/cardinal/images/default-thumb.png'" id="${recommendation.id}" >
+          </figure>
+        </div>
+        <p class="title">${recommendation.name}</p>
+        <p class="subtitle">${recommendation.category}</p>
+        <button class="button edit-rec hvr-glow" id="${recommendation.id}">Edit</button>
+        <button class="button delete-rec hvr-glow" id="${recommendation.id}">Delete</button>
+      </article>
+    </div>`
+}
+
+function renderRecommendationModal(recommendation) {
+  document.querySelector('#rec-modal .modal-card-body').innerHTML = `
+      <article class=" has-background-light">
         <div class="card-image">
           <figure class="image is-4by3">
             <img src="${recommendation.image}" onerror="this.src='https://phadvocates.org/wp-content/themes/cardinal/images/default-thumb.png'">
           </figure>
         </div>
-        <p class="title">${recommendation.name}</p>
-        <p class="subtitle">${recommendation.category}</p>
-        <a target="_blank" href="${recommendation.url}">Go!</a>
-        <button class="button edit-rec" id="${recommendation.id}">Edit</button>
-        <button class="button delete-rec" id="${recommendation.id}">Delete</button>
+        <p class="subtitle ">${recommendation.notes}</p>
+        <p class="subtitle">Recommended by: ${recommendation.recommended_by}</p>
       </article>
-    </div>`
+    `
+    document.querySelector('#rec-modal .modal-card-foot').innerHTML = `<a target="_blank" class="button hvr-glow is-primary" href="${recommendation.url}">Visit Website</a>`
+
+    document.querySelector('#rec-modal p').innerHTML = recommendation.name
 }
-
-
-// <p class="subtitle is-6">${recommendation.notes}</p>
-// <p class="subtitle is-6">Recommended by: ${recommendation.recommended_by}</p>
 
 function renderLocationTabs(locations) {
   locationTabs.innerHTML +=
@@ -285,12 +295,19 @@ function renderEditRecommendation(rec) {
     </form>`
 }
 
-function toggleModalOff () {
-  document.querySelector('.modal').classList.remove("is-active")
+function toggleEditModalOff () {
+  document.querySelector('#editmodal').classList.remove("is-active")
+}
+function toggleRecModalOff () {
+  document.querySelector('#rec-modal').classList.remove("is-active")
 }
 
-function toggleModalOn () {
-  document.querySelector('.modal').classList.add("is-active")
+function toggleEditModalOn () {
+  document.querySelector('#editmodal').classList.add("is-active")
+}
+
+function toggleRecModalOn () {
+  document.querySelector('#rec-modal').classList.add("is-active")
 }
 
 function toggleMainPageOn () {

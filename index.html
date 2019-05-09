@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-
-
   </head>
 
   <body >
@@ -23,19 +20,22 @@
           <img src="mendo-circle.png" >
         </a>
       </div>
-      <div class="navbar-item">
+
+      <div class="navbar-item tabs is-toggle is-medium" id="loctabs">
+        <ul ></ul>
+      </div>
+
+      <div class="navbar-item navbar-end">
         <div class="control has-icons-left">
-          <input class="input" type="seach" id="search-by-name" placeholder="search by name">
+          <input class="input " type="search" id="search-by-name" placeholder="search by name">
           <span class="icon is-medium is-left">
             <i class="fas fa-search fa-lg"></i>
           </span>
         </div>
       </div>
-
-      <div class="navbar-item tabs is-toggle is-right is-medium" id="loctabs">
-        <ul id="location-tabs" ></ul>
-      </div>
     </nav>
+
+
 
 <!-- Sign On Page -->
 <header>
@@ -66,30 +66,41 @@
 </header>
 
 <!-- Edit Modal -->
-  <div class="modal">
+  <div class="modal" id="editmodal">
     <div class="modal-background"></div>
-    <div class="modal-card">
+    <div class="modal-card has-background-dark">
       <header class="modal-card-head">
         <p class="modal-card-title"></p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete"  aria-label="close" id="edit-delete"></button>
       </header>
       <section class="modal-card-body">
         <form id="rec-edit-form"></form>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" type="submit" id="save-edit">Save changes</button>
+        <button class="button is-success hvr-grow" type="submit" id="save-edit">Save changes</button>
       </footer>
     </div>
   </div>
 
   <!-- Rec Modal -->
-  <div class="modal">
+  <div class="modal" id="rec-modal">
     <div class="modal-background"></div>
-    <div class="modal-content">
-      <!-- Any other Bulma elements you want -->
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title"></p>
+        <button class="delete" aria-label="close" id="rec-delete"></button>
+      </header>
+      <section class="modal-card-body">
+
+      </section>
+      <footer class="modal-card-foot" >
+
+      </footer>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
   </div>
+
+
+
 
 <main class="hide">
 
