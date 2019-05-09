@@ -27,7 +27,7 @@
       </div>
 
       <!-- Map Button -->
-      <div class="navbar-item " id="map-btn">
+      <div class="navbar-item" id="map-btn">
         <p class="buttons">
           <a class="button is-warning is-rounded hvr-grow" >
               <span class="icon is-small"><i class="fas fa-map"></i></span>
@@ -35,6 +35,26 @@
           </a>
         </p>
       </div>
+
+      <!-- Category Dropdown -->
+    <div class="navbar-item">
+      <div class="dropdown">
+        <div class="dropdown-trigger">
+          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Select a Category</span>
+            <span class="icon is-small">
+              <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+
+          </div>
+        </div>
+      </div>
+      </div>
+
 
       <!-- Search Bar -->
       <div class="navbar-item navbar-end">
@@ -49,7 +69,7 @@
 
 
 
-<!-- Sign On Page -->
+    <!-- Sign On Page -->
     <header>
   <section class="hero is-success is-fullheight" >
     <div class="hero-body">
@@ -78,7 +98,7 @@
   </section>
 </header>
 
-  <!-- Edit Modal -->
+    <!-- Edit Modal -->
     <div class="modal" id="editmodal">
     <div class="modal-background"></div>
     <div class="modal-card has-background-dark">
@@ -95,25 +115,21 @@
     </div>
   </div>
 
-  <!-- Rec Modal -->
+    <!-- Rec Modal -->
     <div class="modal" id="rec-modal">
     <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title"></p>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title"></p>
         <button class="delete" aria-label="close" id="rec-delete"></button>
       </header>
-      <section class="modal-card-body">
-
-      </section>
-      <footer class="modal-card-foot" >
-
-      </footer>
+      <section class="modal-card-body"></section>
+      <footer class="modal-card-foot" ></footer>
     </div>
   </div>
 
-  <!-- Map Modal -->
-  <div class="modal" id="map-modal">
+    <!-- Map Modal -->
+    <div class="modal" id="map-modal">
     <div class="modal-background"></div>
     <div class="modal-content">
       <section class="modal-card-body">
@@ -126,7 +142,7 @@
 
     <main class="hide">
 
-<!-- Side Panel -->
+      <!-- Side Panel -->
       <div class="column columns ">
       <nav class="panel column sidenav">
 
@@ -199,7 +215,7 @@
         </div>
       </nav>
 
-<!-- Recommendation Container -->
+        <!-- Recommendation Container -->
         <div class="columns is-multiline" id="recommendations" ></div>
 
     </main>
@@ -208,7 +224,7 @@
     <script src="index.js"></script>
 
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCGPYjf2Dn57fgjNy-eakFcNgUEqgHFrg&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
     </script>
   </body>
 </html>

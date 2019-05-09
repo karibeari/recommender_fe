@@ -1,5 +1,5 @@
 
-let userId =1
+let userId
 let userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
 let recommendationsUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/recommendations'
 let usersUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/users'
@@ -8,63 +8,45 @@ let mainPage = document.querySelector('main')
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
 let locationDiv = document.querySelector('#location p')
+let dropdown = document.querySelector('.dropdown')
+let dropdownContent = document.querySelector('.dropdown-content')
 let store = {}
 let locations = []
 let categories = []
 let coordinates = []
 
 
-toggleMainPageOn ()
-refreshData()
-
-//SIGN IN
-// document.querySelector('#signin').addEventListener('click', () => {
-//   event.preventDefault()
-//   fetch(usersUrl, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({name: document.querySelector('#user-name').value})
-//   })
-//   .then(resp => resp.json())
-//   .then(user => {
-//     userId = user.id
-//     userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
-//     toggleMainPageOn()
-//     refreshData()
-//     document.querySelector('#user-name').value = ''
-//   })
-//   .catch(error => console.error(error.message))
-// })
-
-function initMap() {
-   map = new google.maps.Map(document.getElementById('map'), {
-     zoom: 4,
-     center: {lat: 39, lng: -98}
-   });
- }
-
-//PLOT MARKERS ON MAP
-function plotMarkers() {
-  let map = new google.maps.Map(document.getElementById('map'), {zoom: 10, center: {lat:39.7, lng: -105}});
-  coordinates.forEach((coord) => {
-    let infowindow = new google.maps.InfoWindow({content: coord.name});
-    let marker = new google.maps.Marker({position: coord.latlong, map: map, animation: google.maps.Animation.DROP});
-    marker.addListener('click', function() {infowindow.open(map, marker)});
+// SIGN IN
+document.querySelector('#signin').addEventListener('click', () => {
+  event.preventDefault()
+  fetch(usersUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({name: document.querySelector('#user-name').value})
   })
-}
+  .then(resp => resp.json())
+  .then(user => {
+    userId = user.id
+    userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
+    toggleMainPage()
+    refreshData()
+    document.querySelector('#user-name').value = ''
+  })
+  .catch(error => console.error(error.message))
+})
 
 //BACK TO SIGN IN
 document.querySelector('#logo').addEventListener('click', () => {
-  toggleMainPageOff()
+  toggleMainPage()
   clearRecommendations()
   clearLocationDiv()
 })
 
 //OPEN MAP
 document.querySelector('#map-btn .button').addEventListener('click', () => {
-  toggleMapModalOn()
+  toggleMapModal()
   plotMarkers()
 })
 
@@ -101,7 +83,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
   let editForm = document.querySelector('#rec-edit-form')
   const formData = new FormData(editForm)
   let id = formData.get("id")
-  toggleEditModalOff()
+  toggleEditModal()
 
   const body ={
     id: id,
@@ -156,19 +138,27 @@ recContainer.addEventListener('click', function(event) {
       .catch(error => console.error(error.message))
   }
   else if (event.target.matches('.edit-rec')) {
-      toggleEditModalOn()
+      toggleEditModal()
       renderEditRecommendation(recMatch)
   }
   else if (event.target.matches('img')){
-    toggleRecModalOn()
+    toggleRecModal()
     renderRecommendationModal(recMatch)
   }
 })
 
+//TOGGLE DROPDOWN
+dropdown.addEventListener('click', toggleDropDown)
+document.querySelector('.dropdown-content').addEventListener('click', event => {
+    let filteredResults = store.recommendations.filter((rec) => { return rec.category === event.target.innerText })
+    clearRecommendations()
+    renderRecommendations(filteredResults)
+})
+
 //CLOSE MODALS
-document.querySelector('#edit-delete').addEventListener('click', toggleEditModalOff)
-document.querySelector('#rec-delete').addEventListener('click', toggleRecModalOff)
-document.querySelector('#map-delete').addEventListener('click', toggleMapModalOff)
+document.querySelector('#edit-delete').addEventListener('click', toggleEditModal)
+document.querySelector('#rec-delete').addEventListener('click', toggleRecModal)
+document.querySelector('#map-delete').addEventListener('click', toggleMapModal)
 
 //FILTER BY LOCATION
 locationDiv.addEventListener('click', () => {
@@ -186,6 +176,10 @@ locationDiv.addEventListener('click', () => {
 function getUserData() {
   clearRecommendations()
   clearLocationDiv()
+  clearDropDown()
+  locations = []
+  categories = []
+  coordinates = []
   return fetch(userUrl)
   .then(resp => resp.json())
   .then(user => {
@@ -219,6 +213,7 @@ function refreshData() {
   getUserData().then(() => {
     renderRecommendations(store.recommendations)
     renderLocationBtns(locations)
+    renderDropDownMenu(categories)
   })
 }
 
@@ -231,6 +226,12 @@ function clearRecommendations() {
 function clearLocationDiv() {
   while (locationDiv.firstChild) {
     locationDiv.removeChild(locationDiv.firstChild)
+  }
+}
+
+function clearDropDown() {
+  while (dropdownContent.firstChild) {
+    dropdownContent.removeChild(dropdownContent.firstChild)
   }
 }
 
@@ -271,6 +272,17 @@ function renderRecommendationModal(recommendation) {
     document.querySelector('#rec-modal .modal-card-foot').innerHTML = `<a target="_blank" class="button hvr-glow is-primary" href="${recommendation.url}">Visit Website</a>`
 
     document.querySelector('#rec-modal p').innerHTML = recommendation.name
+}
+
+function renderDropDownMenu(categories) {
+  categories.forEach(renderDropDownMenuItem)
+}
+
+function renderDropDownMenuItem(category) {
+  dropdownContent.innerHTML +=
+  `<a class="dropdown-item">
+    ${category}
+  </a>`
 }
 
 function renderLocationBtns(locations) {
@@ -323,39 +335,39 @@ function renderEditRecommendation(rec) {
     </form>`
 }
 
-
-//****refactor into 1 toggleon and 1 toggleoff
-function toggleRecModalOn () {
-  document.querySelector('#rec-modal').classList.add("is-active")
+function toggleRecModal () {
+  document.querySelector('#rec-modal').classList.toggle("is-active")
 }
 
-function toggleRecModalOff () {
-  document.querySelector('#rec-modal').classList.remove("is-active")
+function toggleEditModal () {
+  document.querySelector('#editmodal').classList.toggle("is-active")
 }
 
-function toggleEditModalOn () {
-  document.querySelector('#editmodal').classList.add("is-active")
+function toggleMapModal () {
+  document.querySelector('#map-modal').classList.toggle("is-active")
 }
 
-function toggleEditModalOff () {
-  document.querySelector('#editmodal').classList.remove("is-active")
+function toggleMainPage () {
+  introPage.classList.toggle('hide')
+  mainPage.classList.toggle('hide')
 }
 
-function toggleMapModalOn () {
-  document.querySelector('#map-modal').classList.add("is-active")
+function toggleDropDown () {
+  dropdown.classList.toggle('is-active')
 }
 
-function toggleMapModalOff () {
-  document.querySelector('#map-modal').classList.remove("is-active")
-}
+function initMap() {
+   map = new google.maps.Map(document.getElementById('map'), {
+     zoom: 4,
+     center: {lat: 39, lng: -98}
+   });
+ }
 
-function toggleMainPageOn () {
-  introPage.classList.add('hide')
-  mainPage.classList.remove('hide')
-}
-
-function toggleMainPageOff () {
-  introPage.classList.remove('hide')
-  mainPage.classList.add('hide')
-  // document.querySelector('#search-by-name').classList.add('hide')
+function plotMarkers() {
+  let map = new google.maps.Map(document.getElementById('map'), {zoom: 10, center: {lat:39.7, lng: -105}});
+  coordinates.forEach((coord) => {
+    let infowindow = new google.maps.InfoWindow({content: coord.name});
+    let marker = new google.maps.Marker({position: coord.latlong, map: map, animation: google.maps.Animation.DROP});
+    marker.addListener('click', function() {infowindow.open(map, marker)});
+  })
 }
