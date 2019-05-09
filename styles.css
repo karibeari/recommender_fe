@@ -62,12 +62,27 @@ main {
   margin-top: 7%;
 }
 
-#loctabs {
-  padding-left: 20%;
+#topnav {
+  height: 80px;
 }
 
 #logo {
-  max-height: 80px;
-  max-width: 80px;
-  padding: 10px;
+  width: 180px;
+}
+
+#speech-bubble {
+  width: 40%;
+}
+
+.container {
+  position: relative;
+  text-align: left;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  transform: translate(-50%, -50%);
 }

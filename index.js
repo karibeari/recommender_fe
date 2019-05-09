@@ -7,7 +7,7 @@ let introPage = document.querySelector('header')
 let mainPage = document.querySelector('main')
 let recContainer = document.querySelector("#recommendations")
 let links = document.getElementsByTagName("a")
-let locationTabs = document.querySelector('#loctabs ul')
+let locationDiv = document.querySelector('#location p')
 let store = {}
 let locations = []
 let categories = []
@@ -40,7 +40,7 @@ refreshData()
 document.querySelector('#logo').addEventListener('click', () => {
   toggleMainPageOff()
   clearRecommendations()
-  clearLocationTabs()
+  clearLocationDiv()
 })
 
 //CREATE
@@ -149,7 +149,7 @@ document.querySelector('#edit-delete').addEventListener('click', toggleEditModal
 document.querySelector('#rec-delete').addEventListener('click', toggleRecModalOff)
 
 //FILTER BY LOCATION
-locationTabs.addEventListener('click', () => {
+locationDiv.addEventListener('click', () => {
   const tab = event.target.innerText
   if (tab === 'All Locations') {
     clearRecommendations()
@@ -163,7 +163,7 @@ locationTabs.addEventListener('click', () => {
 
 function getUserData() {
   clearRecommendations()
-  clearLocationTabs()
+  clearLocationDiv()
   return fetch(userUrl)
   .then(resp => resp.json())
   .then(user => {
@@ -186,7 +186,7 @@ function getUserData() {
 function refreshData() {
   getUserData().then(() => {
     renderRecommendations(store.recommendations)
-    renderLocationTabs(locations)
+    renderLocationBtns(locations)
   })
 }
 
@@ -196,9 +196,9 @@ function clearRecommendations() {
   }
 }
 
-function clearLocationTabs() {
-  while (locationTabs.firstChild) {
-    locationTabs.removeChild(locationTabs.firstChild)
+function clearLocationDiv() {
+  while (locationDiv.firstChild) {
+    locationDiv.removeChild(locationDiv.firstChild)
   }
 }
 
@@ -241,25 +241,21 @@ function renderRecommendationModal(recommendation) {
     document.querySelector('#rec-modal p').innerHTML = recommendation.name
 }
 
-function renderLocationTabs(locations) {
-  locationTabs.innerHTML +=
-  `<li class="tab">
-    <a>
-      <span class="icon is-small"><i class="fas fa-compass" aria-hidden="true"></i></span>
+function renderLocationBtns(locations) {
+  locationDiv.innerHTML +=
+  `<a class="button is-primary is-rounded" >
+      <span class="icon is-small"><i class="fas fa-compass"></i></span>
       <span class="has-text-light">All Locations</span>
-    </a>
-  </li>`
-  locations.forEach(renderLocationTab)
+  </a>`
+  locations.forEach(renderLocationBtn)
 }
 
-function renderLocationTab(location) {
-  locationTabs.innerHTML +=
-  `<li class="tab">
-    <a>
-      <span class="icon is-small"><i class="fas fa-compass" aria-hidden="true"></i></span>
+function renderLocationBtn(location) {
+  locationDiv.innerHTML +=
+  `<a class="button is-primary is-rounded" >
+      <span class="icon is-small"><i class="fas fa-compass"></i></span>
       <span class="has-text-light">${location}</span>
-    </a>
-  </li>`
+  </a>`
 }
 
 function renderEditRecommendation(rec) {
@@ -298,6 +294,7 @@ function renderEditRecommendation(rec) {
 function toggleEditModalOff () {
   document.querySelector('#editmodal').classList.remove("is-active")
 }
+
 function toggleRecModalOff () {
   document.querySelector('#rec-modal').classList.remove("is-active")
 }
