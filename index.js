@@ -12,6 +12,9 @@ let store = {}
 let locations = []
 let categories = []
 let coordinates = []
+let coordsOnly = []
+
+
 
 toggleMainPageOn ()
 refreshData()
@@ -38,14 +41,24 @@ refreshData()
 // })
 
 function initMap() {
-  // The location of Uluru
-  var rec1 = {lat: 39, lng: -105};
-  // {lat: store.recommendations[0].latitude, lng: store.recommendations[0].longitude}
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 10, center: rec1});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: rec1, map: map});
+   map = new google.maps.Map(document.getElementById('map'), {
+     zoom: 4,
+     center: {lat: 39, lng: -98}
+   });
+ }
+
+//PLOT MARKERS ON MAP
+function plotMarkers() {
+  let map = new google.maps.Map(document.getElementById('map'), {zoom: 10, center: {lat:39.7, lng: -105}});
+  coordinates.forEach((coord) => {
+    // var infowindow = new google.maps.InfoWindow({
+    //       content: 'coord'
+    //     });
+     let marker = new google.maps.Marker({position: coord, map: map, animation: google.maps.Animation.DROP,});
+     // marker.addListener('click', function() {
+     //      infowindow.open(map, marker);
+     //    });
+  })
 }
 
 //BACK TO SIGN IN
@@ -56,7 +69,10 @@ document.querySelector('#logo').addEventListener('click', () => {
 })
 
 //OPEN MAP
-document.querySelector('#map-btn .button').addEventListener('click', toggleMapModalOn)
+document.querySelector('#map-btn .button').addEventListener('click', () => {
+  toggleMapModalOn()
+  plotMarkers()
+})
 
 //CREATE
 document.querySelector('#rec-form').addEventListener('submit', function(event) {
@@ -89,12 +105,9 @@ document.querySelector('#rec-form').addEventListener('submit', function(event) {
 document.querySelector('#save-edit').addEventListener('click', function(event) {
   event.preventDefault()
   let editForm = document.querySelector('#rec-edit-form')
-  console.log(editForm)
   const formData = new FormData(editForm)
-  console.log(formData);
   let id = formData.get("id")
   toggleEditModalOff()
-  // console.log(id);
 
   const body ={
     id: id,
@@ -126,7 +139,6 @@ document.querySelector('#search-by-name').addEventListener('input', event => {
     let filteredResults = store.recommendations.filter( recommendation =>  {
       return recommendation.name.toLowerCase().includes(filterTerm.toLowerCase())
     })
-    console.log(filteredResults);
     clearRecommendations()
     renderRecommendations(filteredResults)
 })
@@ -196,13 +208,13 @@ function getUserData() {
     })
     store.recommendations.forEach(rec => {
       coordinates.push({
-        name: rec.name,
-        latlong: {
-          lat: rec.latitude,
-          lng: rec.longitude
-        }
+
+          lat: Number(rec.latitude),
+          lng: Number(rec.longitude)
+
       })
     })
+    // plotMarkers()
     return user
   })
   .catch(error => console.error(error.message))
