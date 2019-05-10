@@ -10,6 +10,7 @@ let links = document.getElementsByTagName("a")
 let locationDiv = document.querySelector('#location p')
 let dropdown = document.querySelector('.dropdown')
 let dropdownContent = document.querySelector('.dropdown-content')
+let navbarItems = document.querySelectorAll('.navbar-item')
 let store = {}
 let locations = []
 let categories = []
@@ -371,6 +372,7 @@ function toggleMapModal () {
 function toggleMainPage () {
   introPage.classList.toggle('hide')
   mainPage.classList.toggle('hide')
+  navbarItems.forEach(item => item.classList.toggle('hide'))
 }
 
 function toggleDropDown () {
