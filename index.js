@@ -85,6 +85,10 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
   let id = formData.get("id")
   toggleEditModal()
 
+  let lat = formData.get("latitude")
+  let long = formData.get("longitude")
+  console.log(lat, long);
+
   const body ={
     id: id,
     location: formData.get("location"),
@@ -93,10 +97,13 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
     notes: formData.get("notes"),
     url: formData.get("url"),
     image: formData.get("image"),
+    latitude: lat,
+    longitude: long,
     recommended_by: formData.get("recommended_by"),
     user_id: userId
   }
 
+  // https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}
   fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
     method: 'PUT',
     headers: {
@@ -203,7 +210,6 @@ function getUserData() {
         }
       })
     })
-    // plotMarkers()
     return user
   })
   .catch(error => console.error(error.message))
@@ -251,8 +257,8 @@ function renderRecommendation(recommendation) {
         </div>
         <p class="title">${recommendation.name}</p>
         <p class="subtitle">${recommendation.category}</p>
-        <button class="button edit-rec hvr-glow" id="${recommendation.id}">Edit</button>
-        <button class="button delete-rec hvr-glow" id="${recommendation.id}">Delete</button>
+          <button class="button edit-rec hvr-glow" id="${recommendation.id}">Edit</button>
+          <button class="button delete-rec hvr-glow" id="${recommendation.id}">Delete</button>
       </article>
     </div>`
 }
@@ -325,6 +331,12 @@ function renderEditRecommendation(rec) {
         <input class="input" type="text" name="url" value="${rec.url}" placeholder="website address">
       </div>
       <div class="field">
+        <input class="input" type="number" name="latitude" value=${rec.latitude} placeholder="latitude">
+      </div>
+      <div class="field">
+        <input class="input" type="number" name="longitude" value=${rec.longitude} placeholder="longitude">
+      </div>
+      <div class="field">
           <input class="input" type="text" name="image" value="${rec.image}" placeholder="image url">
       </div>
       <div class="field">
@@ -369,5 +381,6 @@ function plotMarkers() {
     let infowindow = new google.maps.InfoWindow({content: coord.name});
     let marker = new google.maps.Marker({position: coord.latlong, map: map, animation: google.maps.Animation.DROP});
     marker.addListener('click', function() {infowindow.open(map, marker)});
+    console.log(coord)
   })
 }
