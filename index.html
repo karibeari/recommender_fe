@@ -22,7 +22,7 @@
       </div>
 
       <!-- Location Buttons -->
-      <div class="navbar-item " id="location">
+      <div class="navbar-item" id="location">
         <p class="buttons"></p>
       </div>
 
@@ -37,26 +37,25 @@
       </div>
 
       <!-- Category Dropdown -->
-    <div class="navbar-item">
-      <div class="dropdown">
-        <div class="dropdown-trigger">
-          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-            <span>Select a Category</span>
-            <span class="icon is-small">
-              <i class="fas fa-angle-down" aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-
+      <div class="navbar-item">
+        <div class="dropdown">
+          <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+              <span>Select a Category</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
           </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content"></div>
         </div>
       </div>
-      </div>
+    </div>
 
 
       <!-- Search Bar -->
+
       <div class="navbar-item navbar-end">
         <div class="control has-icons-left">
           <input class="input " type="search" id="search-by-name" placeholder="search by name">
@@ -65,38 +64,36 @@
           </span>
         </div>
       </div>
+
     </nav>
 
 
 
     <!-- Sign On Page -->
     <header>
-  <section class="hero is-success is-fullheight" >
-    <div class="hero-body">
-      <div class="container">
-        <img src="https://i.gifer.com/ZZcn.gif" id="speech-bubble">
-        <div class='centered'>
-        <h1 class="title has-text-dark">Welcome to Mendo!</h1>
-        <h2 class="subtitle">
-          <!-- <form id="sign-in"> -->
-            <div class="field has-addons">
-              <div class="control">
-                <input class="input " id="user-name" type="text" placeholder="Full Name">
-              </div>
+      <section class="hero is-success is-fullheight" >
+        <div class="hero-body">
+          <div class="container">
+            <img src="https://i.gifer.com/ZZcn.gif" id="speech-bubble">
+            <div class='centered'>
+            <h1 class="title has-text-dark">Welcome to Mendo!</h1>
+            <h2 class="subtitle">
+              <!-- <form id="sign-in"> -->
+              <div class="field has-addons">
                 <div class="control">
-                  <a class="button is-info" id="signin">
-                    Sign In
-                  </a>
+                  <input class="input " id="user-name" type="text" placeholder="Full Name">
+                </div>
+                  <div class="control">
+                      <input type="submit" class="button is-info" id="signin" value="Sign In">
+                  </div>
                 </div>
               </div>
-            </div>
-          <!-- </form> -->
-        </h2>
-      </div>
-      </div>
-    </div>
-  </section>
-</header>
+            </h2>
+          </div>
+          </div>
+        </div>
+      </section>
+    </header>
 
     <!-- Edit Modal -->
     <div class="modal" id="editmodal">
@@ -113,7 +110,7 @@
         <button class="button is-success hvr-grow" type="submit" id="save-edit">Save changes</button>
       </footer>
     </div>
-  </div>
+    </div>
 
     <!-- Rec Modal -->
     <div class="modal" id="rec-modal">

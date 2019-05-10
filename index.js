@@ -17,6 +17,7 @@ let coordinates = []
 
 
 // SIGN IN
+//****sign in on click or enter
 document.querySelector('#signin').addEventListener('click', () => {
   event.preventDefault()
   fetch(usersUrl, {
@@ -45,6 +46,8 @@ document.querySelector('#logo').addEventListener('click', () => {
 })
 
 //OPEN MAP
+//****hide map button on sign on
+//****change map based on location
 document.querySelector('#map-btn .button').addEventListener('click', () => {
   toggleMapModal()
   plotMarkers()
@@ -73,7 +76,10 @@ document.querySelector('#rec-form').addEventListener('submit', function(event) {
     body: JSON.stringify(body)
   })
   .then(resp => resp.json())
-  .then(refreshData)
+  .then(() => {
+    refreshData()
+    document.querySelector('#rec-form').reset()
+  })
   .catch(error => console.error(error.message))
 })
 
@@ -103,7 +109,6 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
     user_id: userId
   }
 
-  // https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}
   fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
     method: 'PUT',
     headers: {
@@ -117,6 +122,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
 })
 
 //SEARCH BY NAME
+//****hide search on sign on
 document.querySelector('#search-by-name').addEventListener('input', event => {
     filterTerm = event.target.value
     let filteredResults = store.recommendations.filter( recommendation =>  {
@@ -127,6 +133,7 @@ document.querySelector('#search-by-name').addEventListener('input', event => {
 })
 
 //DELETE REC AND EDIT MODAL
+//****alert before deleting
 recContainer.addEventListener('click', function(event) {
   let id = event.target.id
   let recMatch = store.recommendations.find(rec => {
@@ -155,6 +162,8 @@ recContainer.addEventListener('click', function(event) {
 })
 
 //TOGGLE DROPDOWN
+//****filter dropdown categories by location
+//****hide dropdown on sign on
 dropdown.addEventListener('click', toggleDropDown)
 document.querySelector('.dropdown-content').addEventListener('click', event => {
     let filteredResults = store.recommendations.filter((rec) => { return rec.category === event.target.innerText })
