@@ -1,8 +1,8 @@
 
 let userId
-let userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
-let recommendationsUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/recommendations'
-let usersUrl = 'https://safe-woodland-57896.herokuapp.com/api/v1/users'
+let userUrl = `https://mendo-be.herokuapp.com/api/v1/users/${userId}`
+let recommendationsUrl = 'https://mendo-be.herokuapp.com/api/v1/recommendations'
+let usersUrl = 'https://mendo-be.herokuapp.com/api/v1/users'
 let introPage = document.querySelector('header')
 let mainPage = document.querySelector('main')
 let recContainer = document.querySelector("#recommendations")
@@ -16,9 +16,7 @@ let locations = []
 let categories = []
 let coordinates = []
 
-
 // SIGN IN
-//****sign in on click or enter
 document.querySelector('#signin').addEventListener('click', () => {
   event.preventDefault()
   fetch(usersUrl, {
@@ -47,8 +45,6 @@ document.querySelector('#logo').addEventListener('click', () => {
 })
 
 //OPEN MAP
-//****hide map button on sign on
-//****change map based on location
 document.querySelector('#map-btn .button').addEventListener('click', () => {
   toggleMapModal()
   plotMarkers()
