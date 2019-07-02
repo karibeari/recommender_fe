@@ -16,9 +16,12 @@ let locations = []
 let categories = []
 let coordinates = []
 
+window.alert("Welcome to Mendo! Mendo is not currently available to new users. Please enter 'Kari' into the user sign in bubble to see a demo of Mendo.")
+
 // SIGN IN
 document.querySelector('#signin').addEventListener('click', () => {
   event.preventDefault()
+
   fetch(usersUrl, {
     method: 'POST',
     headers: {
