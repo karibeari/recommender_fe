@@ -29,7 +29,7 @@ document.querySelector('#signin').addEventListener('click', () => {
   .then(resp => resp.json())
   .then(user => {
     userId = user.id
-    userUrl = `https://safe-woodland-57896.herokuapp.com/api/v1/users/${userId}`
+    userUrl = `https://mendo-be.herokuapp.com/api/v1/users/${userId}`
     toggleMainPage()
     refreshData()
     document.querySelector('#user-name').value = ''
@@ -106,7 +106,7 @@ document.querySelector('#save-edit').addEventListener('click', function(event) {
     user_id: userId
   }
 
-  fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
+  fetch(`https://mendo-be.herokuapp.com/api/v1/recommendations/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -137,7 +137,7 @@ recContainer.addEventListener('click', function(event) {
     return rec.id === parseInt(id)
   })
   if (event.target.matches('.delete-rec')) {
-    fetch(`https://safe-woodland-57896.herokuapp.com/api/v1/recommendations/${id}`, {
+    fetch(`https://mendo-be.herokuapp.com/api/v1/recommendations/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
