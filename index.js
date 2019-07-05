@@ -166,9 +166,14 @@ recContainer.addEventListener('click', function(event) {
 //****hide dropdown on sign on
 dropdown.addEventListener('click', toggleDropDown)
 document.querySelector('.dropdown-content').addEventListener('click', event => {
+  if (event.target.innerText === "All Recommendations") {
+    renderRecommendations(store.recommendations)
+  } else {
     let filteredResults = store.recommendations.filter((rec) => { return rec.category === event.target.innerText })
     clearRecommendations()
     renderRecommendations(filteredResults)
+  }
+
 })
 
 //CLOSE MODALS
@@ -290,6 +295,8 @@ function renderRecommendationModal(recommendation) {
 }
 
 function renderDropDownMenu(categories) {
+  dropdownContent.innerHTML +=
+  `<a class="dropdown-item">All Recommendations</a>`
   categories.forEach(renderDropDownMenuItem)
 }
 
