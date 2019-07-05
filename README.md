@@ -6,7 +6,7 @@ Mendo is a web app that allows you to keep track of all of the recommendations y
 
 Go to [Mendo](https://mendo.netlify.com/) to use the web application online.
 
-View a video demo [here](https://youtu.be/iEcKUlsrDrk/)
+View a video demo [here](https://youtu.be/iEcKUlsrDrk/).
 
 
 ## Built With
