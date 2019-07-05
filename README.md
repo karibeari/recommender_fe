@@ -4,13 +4,17 @@ Mendo is a web app that allows you to keep track of all of the recommendations y
 
 ## Getting Started
 
-Go to [Mendo](mendo.surge.sh) to use the web application online.
+Go to [Mendo](https://mendo.netlify.com/) to use the web application online.
+
+View a video demo [here](https://youtu.be/iEcKUlsrDrk/)
+
 
 ## Built With
 
 * [Bulma](https://bulma.io/)
 * [Heroku](https://dashboard.heroku.com/apps)
 * [Google Maps API](https://developers.google.com/maps/documentation/)
+* [Netlify](https://www.netlify.com/)
 
 
 ## Author
