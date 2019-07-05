@@ -2,6 +2,9 @@
 
 Mendo is a web app that allows you to keep track of all of the recommendations you get from friends and family.  Keep track of restaurants, breweries, hiking trails, or climbing spots to visit, books to read, or movies to watch, etc.  Add corresponding websites, images, notes, and location data to reference whenever you need.  
 
+![Login Page](/login.png)
+Format: ![Alt Text](url)
+
 ## Getting Started
 
 Go to [Mendo](https://mendo.netlify.com/) to use the web application online.
