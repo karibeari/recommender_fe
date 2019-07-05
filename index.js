@@ -163,7 +163,6 @@ recContainer.addEventListener('click', function(event) {
 
 //TOGGLE DROPDOWN
 //****filter dropdown categories by location
-//****hide dropdown on sign on
 dropdown.addEventListener('click', toggleDropDown)
 document.querySelector('.dropdown-content').addEventListener('click', event => {
   if (event.target.innerText === "All Recommendations") {
@@ -398,6 +397,5 @@ function plotMarkers() {
     let infowindow = new google.maps.InfoWindow({content: coord.name});
     let marker = new google.maps.Marker({position: coord.latlong, map: map, animation: google.maps.Animation.DROP});
     marker.addListener('click', function() {infowindow.open(map, marker)});
-    console.log(coord)
   })
 }
