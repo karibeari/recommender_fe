@@ -26,7 +26,7 @@ View a video demo [here](https://youtu.be/iEcKUlsrDrk/).
 
 ## Author
 
-* **Kari Ferenczy** - [KariBeari](https://github.com/karibeari)
+* **Kari Rosenberg** - [KariBeari](https://github.com/karibeari)
 
 
 ## Acknowledgments
